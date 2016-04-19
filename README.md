@@ -31,7 +31,7 @@ If [available in Hex](https://hex.pm/docs/publish), the package can be installed
   1. Add atomic_map to your list of dependencies in `mix.exs`:
 
         def deps do
-          [{:atomic_map, "~> 0.0.1"}]
+          [{:atomic_map, "~> 0.5"}]
         end
 
   2. Ensure atomic_map is started before your application:

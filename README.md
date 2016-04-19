@@ -40,3 +40,6 @@ If [available in Hex](https://hex.pm/docs/publish), the package can be installed
           [applications: [:atomic_map]]
         end
 
+
+## Todo:
+  - maybe allow direct conversion to a struct, like Poison does it: as: %SomeStruct{}...

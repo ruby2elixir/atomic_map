@@ -1,6 +1,6 @@
 # AtomicMap
 
-A small helper to convert deep hashes with mixed string/atom keys to atom-only keyed maps. Optionally with a safe option, to prevent [atom space exhaustion of the Erlang VM](https://erlangcentral.org/wiki/index.php?title=String_Conversion_To_Atom).
+A small helper to convert deep Elixir maps with mixed string/atom keys to atom-only keyed maps. Optionally with a safe option, to prevent [atom space exhaustion of the Erlang VM](https://erlangcentral.org/wiki/index.php?title=String_Conversion_To_Atom).
 
 ## Usage
 
@@ -8,9 +8,15 @@ A small helper to convert deep hashes with mixed string/atom keys to atom-only k
 ```elixir
 iex> AtomicMap.convert(%{"a" => 2, "b" => %{"c" => 4}}, safe: true)
 %{a: 2, b: %{c: 4}}
+
+iex> AtomicMap.convert([ %{"c" => 1}, %{:c => 2}, %{"c" => %{:b => 4}}], safe: true]
+[%{c: 1}, %{c: 2}, %{c: %{b: 4}}]
+
+
+iex> AtomicMap.convert(%{ "a" => [ %{"c" => 1}, %{"c" => 2}] }, safe: true]
+%{a: [%{c: 1}, %{c: 2}] }
+
 ```
-
-
 
 
 ## Installation

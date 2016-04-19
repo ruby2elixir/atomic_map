@@ -1,5 +1,10 @@
 # AtomicMap
 
+[![Build status](https://travis-ci.org/ruby2elixir/atomic_map.svg "Build status")](https://travis-ci.org/ruby2elixir/atomic_map)
+[![Hex version](https://img.shields.io/hexpm/v/atomic_map.svg "Hex version")](https://hex.pm/packages/atomic_map)
+![Hex downloads](https://img.shields.io/hexpm/dt/atomic_map.svg "Hex downloads")
+
+
 A small helper to convert deep Elixir maps with mixed string/atom keys to atom-only keyed maps. Optionally with a safe option, to prevent [atom space exhaustion of the Erlang VM](https://erlangcentral.org/wiki/index.php?title=String_Conversion_To_Atom).
 
 ## Usage

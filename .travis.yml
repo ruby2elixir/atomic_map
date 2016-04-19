@@ -1,0 +1,8 @@
+language: elixir
+elixir: 1.2.0
+notifications:
+  recipients:
+    - roman.heinrich@gmail.comm
+otp_release:
+  - 18.0
+script: "MIX_ENV=test mix local.hex --force && MIX_ENV=test mix do deps.get, test"

@@ -1,5 +1,5 @@
 defmodule AtomicMap do
-
+  def convert(v, opts \\ [])
   def convert(map, opts) when is_map(map) do
     safe = Keyword.get(opts, :safe, true)
     map |> Enum.reduce(%{}, fn({k,v}, acc)->

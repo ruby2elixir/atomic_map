@@ -1,10 +1,10 @@
 defmodule AtomicMap.Mixfile do
   use Mix.Project
 
-  @version = "0.5.0"
+  @version  "0.5.0"
   def project do
     [app: :atomic_map,
-     version: version,
+     version: @version,
      elixir: "~> 1.2",
      build_embedded: Mix.env == :prod,
      start_permanent: Mix.env == :prod,

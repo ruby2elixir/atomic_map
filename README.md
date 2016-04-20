@@ -25,21 +25,11 @@ iex> AtomicMap.convert(%{ "a" => [ %{"c" => 1}, %{"c" => 2}] }, safe: true]
 
 
 ## Installation
-
-If [available in Hex](https://hex.pm/docs/publish), the package can be installed as:
-
   1. Add atomic_map to your list of dependencies in `mix.exs`:
 
         def deps do
-          [{:atomic_map, "~> 0.5"}]
+          [{:atomic_map, "~> 0.6"}]
         end
-
-  2. Ensure atomic_map is started before your application:
-
-        def application do
-          [applications: [:atomic_map]]
-        end
-
 
 ## Todo:
   - maybe allow direct conversion to a struct, like Poison does it: as: %SomeStruct{}...

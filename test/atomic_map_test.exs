@@ -54,6 +54,12 @@ defmodule AtomicMapTest do
     assert AtomicMap.convert(input) == expected
   end
 
+  test "works with tuples" do
+    input    = %{ "first"  => {1,2}}
+    expected = %{first: {1, 2}}
+    assert AtomicMap.convert(input) == expected
+  end
+
   test "raises for not existing atoms" do
     assert_raise ArgumentError, fn ->
       input = %{"a" => 2, "b" => %{"c" => 4}, "__not___existing__" => 5}

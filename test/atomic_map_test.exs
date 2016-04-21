@@ -2,6 +2,10 @@ defmodule AtomicMapTest do
   use ExUnit.Case
   doctest AtomicMap
 
+  defmodule MyStruct do
+    defstruct first: nil, second: nil
+  end
+
   test "works with maps" do
     input    = %{"a" => 2, "b" => %{"c" => 4}}
     expected = %{a: 2, b: %{c: 4}}
@@ -35,6 +39,18 @@ defmodule AtomicMapTest do
   test "works with default opts" do
     input    = "2"
     expected = "2"
+    assert AtomicMap.convert(input) == expected
+  end
+
+  test "works with structs" do
+    input    = %AtomicMapTest.MyStruct{first: [%{"a" => 1}]}
+    expected = %AtomicMapTest.MyStruct{first: [%{a: 1}]}
+    assert AtomicMap.convert(input) == expected
+  end
+
+  test "works with nested structs" do
+    input    = %AtomicMapTest.MyStruct{first: [%AtomicMapTest.MyStruct{first: %{"b" => 1}}]}
+    expected = %AtomicMapTest.MyStruct{first: [%AtomicMapTest.MyStruct{first: %{b: 1}}]}
     assert AtomicMap.convert(input) == expected
   end
 

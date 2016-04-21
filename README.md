@@ -28,7 +28,7 @@ iex> AtomicMap.convert(%{ "a" => [ %{"c" => 1}, %{"c" => 2}] }, safe: true]
   1. Add atomic_map to your list of dependencies in `mix.exs`:
 
         def deps do
-          [{:atomic_map, "~> 0.6"}]
+          [{:atomic_map, "~> 0.7"}]
         end
 
 ## Todo:

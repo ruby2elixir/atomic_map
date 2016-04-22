@@ -9,7 +9,7 @@ defmodule AtomicMapTest do
   test "works with maps" do
     input    = %{"a" => 2, "b" => %{"c" => 4}}
     expected = %{a: 2, b: %{c: 4}}
-    assert AtomicMap.convert(input, safe: true) == expected
+    assert AtomicMap.convert(input, %{safe: true}) == expected
   end
 
   test "works with maps with lists" do
@@ -58,6 +58,12 @@ defmodule AtomicMapTest do
     input    = %{ "first"  => {1,2}}
     expected = %{first: {1, 2}}
     assert AtomicMap.convert(input) == expected
+  end
+
+  test "convertes keys to underscore by default (attention: safe: false needed here)" do
+    input    = %{ "firstKey"  => {1,2}, :secondKey => 4}
+    expected = %{first_key: {1, 2}, second_key: 4}
+    assert AtomicMap.convert(input, safe: false) == expected
   end
 
   test "raises for not existing atoms" do

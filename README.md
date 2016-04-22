@@ -19,8 +19,6 @@ iex> AtomicMap.convert(%{"a" => 2, "b" => %{"c" => 4}}, safe: true)
 iex> AtomicMap.convert([ %{"c" => 1}, %{:c => 2}, %{"c" => %{:b => 4}}], safe: true]
 [%{c: 1}, %{c: 2}, %{c: %{b: 4}}]
 
-
-
 # converts CamelCase to under_score by default (notice that you might have to turn 'safe' flag off)
 iex> AtomicMap.convert(%{ "CamelCase" => [ %{"c" => 1}, %{"c" => 2}] }, safe: false)
 %{camel_case: [%{c: 1}, %{c: 2}]}

@@ -44,7 +44,15 @@ defmodule AtomicMap do
   defp as_atom(s, false) when is_binary(s),  do: s |> String.to_atom
   defp as_atom(s, _),                        do: s
 
-  def as_underscore(s, true)  when is_binary(s), do: s |> Macro.underscore
-  def as_underscore(s, true)  when is_atom(s),   do: s |> Atom.to_string |> as_underscore(true)
-  def as_underscore(s, false),                   do: s
+  defp as_underscore(s, true)  when is_binary(s), do: s |> do_undescore
+  defp as_underscore(s, true)  when is_atom(s),   do: s |> Atom.to_string |> as_underscore(true)
+  defp as_underscore(s, false),                   do: s
+
+  defp do_undescore(s) do
+    s
+    |> String.replace(~r/([A-Z]+)([A-Z][a-z])/, "\\1_\\2")
+    |> String.replace(~r/([a-z\d])([A-Z])/, "\\1_\\2")
+    |> String.replace(~r/-/, "_")
+    |> String.downcase
+  end
 end

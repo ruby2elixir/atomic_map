@@ -32,7 +32,8 @@ defmodule AtomicMap.Mixfile do
   defp deps do
     [
       {:earmark, "~> 0.2", only: :dev},
-      {:ex_doc, "~> 0.11", only: :dev}
+      {:ex_doc, "~> 0.11", only: :dev},
+      {:benchfella, "0.3.2", only: :dev},
     ]
   end
 

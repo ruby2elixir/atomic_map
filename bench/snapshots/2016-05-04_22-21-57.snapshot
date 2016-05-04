@@ -1,0 +1,6 @@
+duration:1.0;mem stats:false;sys mem stats:false
+module;test;tags;iterations;elapsed
+BasicBench	regex_underscore - short		100000	2667305
+BasicBench	regex_underscore - long		20000	1656602
+BasicBench	macro_underscore - short		100000	1347365
+BasicBench	macro_underscore - long		50000	2556233

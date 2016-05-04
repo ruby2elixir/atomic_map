@@ -26,6 +26,10 @@ iex> AtomicMap.convert(%{ "CamelCase" => [ %{"c" => 1}, %{"c" => 2}] }, safe: fa
 # underscoring can be turned off by passing `underscore: false` to opts
 iex> AtomicMap.convert(%{ "CamelCase" => [ %{"c" => 1}, %{"c" => 2}] }, safe: false, underscore: false )
 %{CamelCase: [%{c: 1}, %{c: 2}]}
+
+# hyphens are replaced
+iex> AtomicMap.convert(%{ "some-key" => [ %{"c" => 1}, %{"c" => 2}] }, safe: false, underscore: true )
+%{some_key: [%{c: 1}, %{c: 2}]}
 ```
 
 
@@ -38,3 +42,8 @@ iex> AtomicMap.convert(%{ "CamelCase" => [ %{"c" => 1}, %{"c" => 2}] }, safe: fa
 
 ## Todo:
   - maybe allow direct conversion to a struct, like Poison does it: as: %SomeStruct{}...
+
+
+## Benchmark
+
+    $ mix bench

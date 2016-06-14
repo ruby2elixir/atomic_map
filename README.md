@@ -1,3 +1,4 @@
+[![Stories in Ready](https://badge.waffle.io/ruby2elixir/atomic_map.png?label=ready&title=Ready)](https://waffle.io/ruby2elixir/atomic_map)
 # AtomicMap
 
 [![Build status](https://travis-ci.org/ruby2elixir/atomic_map.svg "Build status")](https://travis-ci.org/ruby2elixir/atomic_map)

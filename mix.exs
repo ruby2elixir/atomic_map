@@ -5,7 +5,7 @@ defmodule AtomicMap.Mixfile do
   def project do
     [app: :atomic_map,
      version: @version,
-     elixir: "~> 1.2",
+     elixir: "~> 1.4",
      build_embedded: Mix.env == :prod,
      start_permanent: Mix.env == :prod,
      package: package(),
@@ -31,9 +31,9 @@ defmodule AtomicMap.Mixfile do
   # Type "mix help deps" for more examples and options
   defp deps do
     [
-      {:earmark, "~> 0.2", only: :dev},
-      {:ex_doc, "~> 0.11", only: :dev},
-      {:benchfella, "0.3.2", only: :dev},
+      {:earmark, "~> 1.1", only: :dev},
+      {:ex_doc, "~> 0.14", only: :dev},
+      {:benchfella, "~> 0.3", only: :dev},
     ]
   end
 

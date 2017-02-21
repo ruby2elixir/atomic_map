@@ -11,7 +11,7 @@ defmodule AtomicMap do
 
   def convert(struct=%{__struct__: type}, opts=%AtomicMap.Opts{}) do
     struct
-    |> Map.from_struct
+    |> Map.from_struct()
     |> convert(opts)
     |> Map.put(:__struct__, type)
   end
@@ -26,7 +26,7 @@ defmodule AtomicMap do
     list |> Enum.map(fn(x)-> convert(x, opts) end)
   end
   def convert(tuple, opts=%AtomicMap.Opts{}) when is_tuple(tuple) do
-    tuple |> Tuple.to_list |> convert(opts) |> List.to_tuple
+    tuple |> Tuple.to_list |> convert(opts) |> List.to_tuple()
   end
   def convert(v, _opts=%AtomicMap.Opts{}),  do: v
 
@@ -40,17 +40,23 @@ defmodule AtomicMap do
     |> as_atom(opts.safe)
   end
 
-  defp as_atom(s, true)  when is_binary(s),  do: s |> String.to_existing_atom
-  defp as_atom(s, false) when is_binary(s),  do: s |> String.to_atom
+  defp as_atom(s, true)  when is_binary(s) do
+    try do
+      s |> String.to_existing_atom()
+    rescue
+      ArgumentError -> s
+    end
+  end
+  defp as_atom(s, false) when is_binary(s),  do: s |> String.to_atom()
   defp as_atom(s, _),                        do: s
 
-  defp as_underscore(s, true)  when is_binary(s), do: s |> do_undescore
-  defp as_underscore(s, true)  when is_atom(s),   do: s |> Atom.to_string |> as_underscore(true)
+  defp as_underscore(s, true)  when is_binary(s), do: s |> do_underscore()
+  defp as_underscore(s, true)  when is_atom(s),   do: s |> Atom.to_string() |> as_underscore(true)
   defp as_underscore(s, false),                   do: s
 
-  defp do_undescore(s) do
+  defp do_underscore(s) do
     s
-    |> Macro.underscore
+    |> Macro.underscore()
     |> String.replace(~r/-/, "_")
   end
 end

@@ -60,7 +60,7 @@ defmodule AtomicMapTest do
     assert AtomicMap.convert(input) == expected
   end
 
-  test "convertes keys to underscore by default (attention: safe: false needed here)" do
+  test "converts keys to underscore by default (attention: safe: false needed here)" do
     input    = %{ "firstKey"  => {1,2}, :secondKey => 4}
     expected = %{first_key: {1, 2}, second_key: 4}
     assert AtomicMap.convert(input, safe: false) == expected
@@ -72,10 +72,9 @@ defmodule AtomicMapTest do
     assert AtomicMap.convert(input, safe: false) == expected
   end
 
-  test "raises for not existing atoms" do
-    assert_raise ArgumentError, fn ->
-      input = %{"a" => 2, "b" => %{"c" => 4}, "__not___existing__" => 5}
-      AtomicMap.convert(input, safe: true)
-    end
+  test "skips not existing atoms" do
+    input    = %{"unknow_val" => 2}
+    expected = %{"unknow_val" => 2}
+    assert AtomicMap.convert(input, %{safe: true}) == expected
   end
 end

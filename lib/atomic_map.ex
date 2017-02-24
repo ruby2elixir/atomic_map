@@ -3,7 +3,8 @@ defmodule AtomicMap.Opts do
   Set any value to `false` to disable checking for that kind of key.
   """
   defstruct safe: true,
-            underscore: true
+            underscore: true,
+            ignore: false
 end
 
 defmodule AtomicMap do
@@ -37,18 +38,22 @@ defmodule AtomicMap do
   defp convert_key(k, opts) do
     k
     |> as_underscore(opts.underscore)
-    |> as_atom(opts.safe)
+    |> as_atom(opts.safe, opts.ignore)
   end
 
-  defp as_atom(s, true)  when is_binary(s) do
+  # params: key, safe, ignore
+  defp as_atom(s, true, true) when is_binary(s) do
     try do
-      s |> String.to_existing_atom()
+      as_atom(s, true, false)
     rescue
       ArgumentError -> s
     end
   end
-  defp as_atom(s, false) when is_binary(s),  do: s |> String.to_atom()
-  defp as_atom(s, _),                        do: s
+  defp as_atom(s, true, false) when is_binary(s) do
+    s |> String.to_existing_atom()
+  end
+  defp as_atom(s, false, _) when is_binary(s),  do: s |> String.to_atom()
+  defp as_atom(s, _, _),                        do: s
 
   defp as_underscore(s, true)  when is_binary(s), do: s |> do_underscore()
   defp as_underscore(s, true)  when is_atom(s),   do: s |> Atom.to_string() |> as_underscore(true)

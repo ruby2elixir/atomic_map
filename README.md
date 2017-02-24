@@ -30,6 +30,10 @@ iex> AtomicMap.convert(%{ "CamelCase" => [ %{"c" => 1}, %{"c" => 2}] }, safe: fa
 # hyphens are replaced
 iex> AtomicMap.convert(%{ "some-key" => [ %{"c" => 1}, %{"c" => 2}] }, safe: false, underscore: true )
 %{some_key: [%{c: 1}, %{c: 2}]}
+
+# you can choose to ignore unknown atoms (so it won't blow up with safe option...)
+AtomicMap.convert(%{ "CamelCase" => [ %{"c" => 1}, %{"c" => 2}] }, safe: true, ignore: true)
+%{"camel_case" => [%{c: 1}, %{c: 2}]}
 ```
 
 

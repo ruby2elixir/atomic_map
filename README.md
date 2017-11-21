@@ -27,6 +27,10 @@ iex> AtomicMap.convert(%{ "CamelCase" => [ %{"c" => 1}, %{"c" => 2}] }, safe: fa
 iex> AtomicMap.convert(%{ "CamelCase" => [ %{"c" => 1}, %{"c" => 2}] }, safe: false, underscore: false )
 %{CamelCase: [%{c: 1}, %{c: 2}]}
 
+# in case you have extra large maps and you wish to use the faster custom transformation to underscore, you can pass `high_perf: true`
+AtomicMap.convert(%{ "CamelCase" => [ %{"c" => 1}, %{"c" => 2}] }, safe: false, high_perf: true)
+%{camel_case: [%{c: 1}, %{c: 2}]}
+
 # hyphens are replaced
 iex> AtomicMap.convert(%{ "some-key" => [ %{"c" => 1}, %{"c" => 2}] }, safe: false, underscore: true )
 %{some_key: [%{c: 1}, %{c: 2}]}
@@ -41,7 +45,7 @@ AtomicMap.convert(%{ "CamelCase" => [ %{"c" => 1}, %{"c" => 2}] }, safe: true, i
   1. Add atomic_map to your list of dependencies in `mix.exs`:
 
         def deps do
-          [{:atomic_map, "~> 0.8"}]
+          [{:atomic_map, "~> 0.10"}]
         end
 
 ## Todo:

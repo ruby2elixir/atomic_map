@@ -1,11 +1,11 @@
 defmodule AtomicMap.Mixfile do
   use Mix.Project
 
-  @version  "0.9.2"
+  @version  "0.10.0"
   def project do
     [app: :atomic_map,
      version: @version,
-     elixir: ">= 1.2.0",
+     elixir: ">= 1.5.0",
      build_embedded: Mix.env == :prod,
      start_permanent: Mix.env == :prod,
      package: package(),
@@ -34,6 +34,7 @@ defmodule AtomicMap.Mixfile do
       {:earmark, "~> 1.1", only: :dev},
       {:ex_doc, "~> 0.14", only: :dev},
       {:benchfella, "~> 0.3", only: :dev},
+      {:poison, "~> 3.1", only: :dev}
     ]
   end
 

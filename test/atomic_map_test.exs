@@ -84,4 +84,16 @@ defmodule AtomicMapTest do
       AtomicMap.convert(input, safe: true, ignore: false)
     end
   end
+
+  test "camel case to underscore convertion" do
+    input = %{"camelCase-Foo-bar-123_Test" => 42}
+    expected = %{camel_case_foo_bar_123_test: 42}
+    assert AtomicMap.convert(input, safe: false, high_perf: true) == expected
+  end
+
+  test "pascal case to underscore convertion" do
+    input = %{"PascalCaseFooBar-123Test" => 42}
+    expected = %{pascal_case_foo_bar_123_test: 42}
+    assert AtomicMap.convert(input, safe: false, high_perf: true) == expected
+  end
 end

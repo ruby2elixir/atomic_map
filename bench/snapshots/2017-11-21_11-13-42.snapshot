@@ -1,0 +1,10 @@
+duration:1.0;mem stats:false;sys mem stats:false
+module;test;tags;iterations;elapsed
+BasicBench	large dict camel cased with high perf underscore		10	1256231
+BasicBench	large dict camel cased with low perf underscore		5	1467331
+BasicBench	large dict snake cased with high perf underscore		10	1223200
+BasicBench	large dict snake cased with low perf underscore		5	1507264
+BasicBench	macro_underscore - long		50000	2172177
+BasicBench	macro_underscore - short		100000	1185552
+BasicBench	regex_underscore - long		50000	2968897
+BasicBench	regex_underscore - short		100000	1680492

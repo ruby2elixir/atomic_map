@@ -55,6 +55,7 @@ defmodule AtomicMap do
   defp as_atom(s, false, _) when is_binary(s),  do: s |> String.to_atom()
   defp as_atom(s, _, _),                        do: s
 
+  defp as_underscore(s, true)  when is_number(s), do: s
   defp as_underscore(s, true)  when is_binary(s), do: s |> do_underscore()
   defp as_underscore(s, true)  when is_atom(s),   do: s |> Atom.to_string() |> as_underscore(true)
   defp as_underscore(s, false),                   do: s

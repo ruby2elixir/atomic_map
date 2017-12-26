@@ -24,6 +24,12 @@ defmodule AtomicMapTest do
     assert AtomicMap.convert(input, safe: true) == expected
   end
 
+  test "works with numbers as keys" do
+    input    = [ %{200 => 1}, %{"c" => 2}, %{"c" => %{"b" => 4}}]
+    expected = [%{200 => 1}, %{c: 2}, %{c: %{b: 4}}]
+    assert AtomicMap.convert(input, safe: true) == expected
+  end
+
   test "works with mixed keys (string / atoms)" do
     input    = [ %{"c" => 1}, %{:c => 2}, %{"c" => %{:b => 4}}]
     expected = [%{c: 1}, %{c: 2}, %{c: %{b: 4}}]

@@ -21,13 +21,6 @@ end
 alias AtomicMap.Converters
 
 defimpl AtomicMap.Converters, for: Map do
-  def convert(%{__struct__: type} = term, convert_key, %Opts{} = opts) do
-    term
-    |> Map.from_struct()
-    |> Converters.convert(convert_key, opts)
-    |> Map.put(:__struct__, type)
-  end
-
   def convert(term, convert_key, %Opts{} = opts) do
     Enum.reduce(term, %{}, fn {k, v}, acc ->
       key = convert_key.(k, opts)
@@ -54,5 +47,12 @@ defimpl AtomicMap.Converters, for: Tuple do
 end
 
 defimpl AtomicMap.Converters, for: Any do
+  def convert(%{__struct__: type} = term, convert_key, %Opts{} = opts) do
+    term
+    |> Map.from_struct()
+    |> Converters.convert(convert_key, opts)
+    |> Map.put(:__struct__, type)
+  end
+
   def convert(term, _, %Opts{}), do: term
 end

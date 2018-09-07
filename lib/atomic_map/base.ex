@@ -4,7 +4,7 @@ defmodule AtomicMap.Base do
   """
 
   import Macro, only: [escape: 1]
-  alias AtomicMap.Opts
+  alias AtomicMap.{Key, Opts}
 
   @doc false
   @callback convert(data :: any(), opts :: Opts.t) :: map()
@@ -14,11 +14,18 @@ defmodule AtomicMap.Base do
     atomic_map_opts = struct(Opts, opts)
 
     quote do
-      import AtomicMap.Converters, only: [convert: 3]
+      Module.register_attribute(__MODULE__, :regex_patterns, [accumulate: true])
+
+      @before_compile AtomicMap.Base
+
+      import AtomicMap.Base, only: [replace: 2]
+      alias AtomicMap.Converters
+
 
       def convert(term, opts \\ unquote(escape(atomic_map_opts)))
       def convert(term, %Opts{} = opts) do
-        convert(term, & convert_key/2, opts)
+        conver_key_fn = Key.convert_fn(__MODULE__.__regex_patterns__(), opts)
+        Converters.convert(term, conver_key_fn)
       end
       def convert(term, %{} = opts) do
         convert(term, struct(Opts, opts))
@@ -26,37 +33,19 @@ defmodule AtomicMap.Base do
       def convert(term, opts) when is_list(opts) do
         convert(term, Enum.into(opts, %{}))
       end
+    end
+  end
 
-      defp convert_key(k, opts) do
-        k
-        |> as_underscore(opts.underscore)
-        |> as_atom(opts.safe, opts.ignore)
-      end
+  defmacro __before_compile__ _ do
+    quote do
+      def __regex_patterns__, do: @regex_patterns
+    end
+  end
 
-      # params: key, safe, ignore
-      defp as_atom(s, true, true) when is_binary(s) do
-        try do
-          as_atom(s, true, false)
-        rescue
-          ArgumentError -> s
-        end
-      end
-      defp as_atom(s, true, false) when is_binary(s) do
-        s |> String.to_existing_atom()
-      end
-      defp as_atom(s, false, _) when is_binary(s),  do: s |> String.to_atom()
-      defp as_atom(s, _, _),                        do: s
-
-      defp as_underscore(s, true)  when is_number(s), do: s
-      defp as_underscore(s, true)  when is_binary(s), do: s |> do_underscore()
-      defp as_underscore(s, true)  when is_atom(s),   do: s |> Atom.to_string() |> as_underscore(true)
-      defp as_underscore(s, false),                   do: s
-
-      defp do_underscore(s) do
-        s
-        |> Macro.underscore()
-        |> String.replace(~r/-/, "_")
-      end
+  defmacro replace(pattern, replacement) do
+    quote do
+      Module.put_attribute __MODULE__, :regex_patterns,
+        {unquote(pattern), unquote(replacement)}
     end
   end
 end

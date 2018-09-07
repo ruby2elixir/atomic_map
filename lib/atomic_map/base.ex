@@ -3,42 +3,29 @@ defmodule AtomicMap.Base do
   Base module for AtomicMap.
   """
 
-  @doc false
-  @callback convert(data :: any(), opts :: AtomicMap.Opts.t) :: map()
-
   import Macro, only: [escape: 1]
+  alias AtomicMap.Opts
+
+  @doc false
+  @callback convert(data :: any(), opts :: Opts.t) :: map()
 
   @doc false
   defmacro __using__(opts \\ []) do
-    atomic_map_opts = struct(AtomicMap.Opts, opts)
+    atomic_map_opts = struct(Opts, opts)
 
     quote do
-      def convert(v, opts \\ unquote(escape(atomic_map_opts)))
+      import AtomicMap.Converters, only: [convert: 3]
 
-      def convert(struct=%{__struct__: type}, opts=%AtomicMap.Opts{}) do
-        struct
-        |> Map.from_struct()
-        |> convert(opts)
-        |> Map.put(:__struct__, type)
+      def convert(term, opts \\ unquote(escape(atomic_map_opts)))
+      def convert(term, %Opts{} = opts) do
+        convert(term, & convert_key/2, opts)
       end
-      def convert(map, opts=%AtomicMap.Opts{}) when is_map(map) do
-        map |> Enum.reduce(%{}, fn({k,v}, acc)->
-          k = k |> convert_key(opts)
-          v = v |> convert(opts)
-          acc |> Map.put(k, v)
-        end)
+      def convert(term, %{} = opts) do
+        convert(term, struct(Opts, opts))
       end
-      def convert(list, opts=%AtomicMap.Opts{}) when is_list(list) do
-        list |> Enum.map(fn(x)-> convert(x, opts) end)
+      def convert(term, opts) when is_list(opts) do
+        convert(term, Enum.into(opts, %{}))
       end
-      def convert(tuple, opts=%AtomicMap.Opts{}) when is_tuple(tuple) do
-        tuple |> Tuple.to_list |> convert(opts) |> List.to_tuple()
-      end
-      def convert(v, _opts=%AtomicMap.Opts{}),  do: v
-
-      # if you pass a plain map or keyword list as opts, those will match and convert it to struct
-      def convert(v, opts=%{}),                do: convert(v, struct(AtomicMap.Opts, opts))
-      def convert(v, opts) when is_list(opts), do: convert(v, Enum.into(opts, %{}))
 
       defp convert_key(k, opts) do
         k
